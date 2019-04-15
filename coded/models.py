@@ -10,3 +10,13 @@ class Profile(models.Model):
 
 	def __str__(self):
 		return self.user
+
+# class Contact(models.Model):
+# 	user = models.ForeignKey(User, on_delete = models.CASCADE)
+# 	name = models.CharField(max_length = 200)
+# 	company_name = models.CharField(max_length = 300)
+# 	description = models.TextField(max_length = 400)
+# 	email = models.EmailField()
+# 	phone_number1 = models.CharField(max_length = 100)
+# 	phone_number2 = models.CharField(max_length = 100)
+# 	location = models.URLField()		

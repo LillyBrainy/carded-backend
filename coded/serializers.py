@@ -1,7 +1,7 @@
 from rest_framework import serializers
-from .models import Profile
+from .models import Profile 
 from rest_framework_jwt.settings import api_settings
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User 
 
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
@@ -24,6 +24,22 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
 		token = jwt_encode_handler(payload)
 		validated_data['token'] = token
 		return validated_data
+
+# class UserEditSerializer(serializers.ModelSerializer):
+# 	class Meta:
+# 		model = Profile
+# 		fields = ['bio','link']
+
+# 	# def perform_action(self):
+# 	# 	return 
+
+
+# class CardSerializer(serializers.ModelSerializer):
+# 	class Meta:
+# 		model = Card
+# 		exclude = ['user']
+
+						
 
 
 
