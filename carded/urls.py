@@ -18,12 +18,13 @@ from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
 from rest_framework_jwt.views import obtain_jwt_token
-from coded.views import UserRegistrationAPIView
+from coded.views import UserRegistrationAPIView 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('login/', obtain_jwt_token),
-    path('signup/', UserRegistrationAPIView.as_view(), name = 'signup')
+    path('signup/', UserRegistrationAPIView.as_view(), name = 'signup'),
+    # path('create/card/', CreateCardAPIView.as_view(), name = 'create-post')
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root = settings.STATIC_ROOT)
