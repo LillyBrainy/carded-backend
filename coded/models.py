@@ -11,12 +11,22 @@ class Profile(models.Model):
 	def __str__(self):
 		return self.user
 
-# class Contact(models.Model):
-# 	user = models.ForeignKey(User, on_delete = models.CASCADE)
-# 	name = models.CharField(max_length = 200)
-# 	company_name = models.CharField(max_length = 300)
-# 	description = models.TextField(max_length = 400)
-# 	email = models.EmailField()
-# 	phone_number1 = models.CharField(max_length = 100)
-# 	phone_number2 = models.CharField(max_length = 100)
-# 	location = models.URLField()		
+class UserInfo(models.Model):
+	user = models.OneToOneField(User, on_delete = models.CASCADE)
+	name = models.CharField(max_length = 200)
+	company_name = models.CharField(max_length = 300 , null = True, blank = True)
+	email = models.EmailField( null = True, blank = True)
+	phone_number1 = models.CharField(max_length = 100,  null = True, blank = True)
+	phone_number2 = models.CharField(max_length = 100,  null = True, blank = True)
+	social_media = models.URLField( null = True, blank = True)
+
+	def __str__(self):
+		return self.user.username
+
+
+class Follow(models.Model):
+	user = models.ForeignKey(User, on_delete = models.CASCADE)
+	friends = models.ForeignKey(User, on_delete = models.CASCADE , related_name = 'following')			
+	
+	def __str__(self):
+		return self.user.username

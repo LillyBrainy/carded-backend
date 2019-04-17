@@ -18,13 +18,16 @@ from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
 from rest_framework_jwt.views import obtain_jwt_token
-from coded.views import UserRegistrationAPIView 
+from coded.views import UserRegistrationAPIView , UserFillInfoAPIView ,UserDataAPIView , UserRetraiveInfoAPIView,FollowUserAPIView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('login/', obtain_jwt_token),
     path('signup/', UserRegistrationAPIView.as_view(), name = 'signup'),
-    # path('create/card/', CreateCardAPIView.as_view(), name = 'create-post')
+    path('fill/QRInfo/<int:userinfo_id>/', UserFillInfoAPIView.as_view(), name = 'fill-QR'),
+    path('get/userInfo/<int:userinfo_id>/', UserRetraiveInfoAPIView.as_view(), name = 'get-info'),
+    path('user/<int:user_id>/data/', UserDataAPIView.as_view(), name = 'user-data'),
+    path('follow/<int:user_id>/user/', FollowUserAPIView.as_view(), name = 'follow-user'),
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root = settings.STATIC_ROOT)
