@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Profile , UserInfo
+from .models import Profile , UserInfo, Follow
 from rest_framework_jwt.settings import api_settings
 from django.contrib.auth.models import User 
 
@@ -38,6 +38,11 @@ class UserDataSerializer(serializers.ModelSerializer):
 		model = User
 		fields = ['id','username','userinfo']
 
+class FollowSerializer(serializers.ModelSerializer):
+	friends = UserDataSerializer()
+	class Meta:
+		model = Follow
+		fields = ['friends']
 						
 
 

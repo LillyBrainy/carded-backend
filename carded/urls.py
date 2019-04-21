@@ -18,7 +18,7 @@ from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
 from rest_framework_jwt.views import obtain_jwt_token
-from coded.views import UserRegistrationAPIView , UserFillInfoAPIView ,UserDataAPIView , UserRetraiveInfoAPIView,FollowUserAPIView
+from coded.views import UserRegistrationAPIView , UserFillInfoAPIView ,UserDataAPIView , UserRetraiveInfoAPIView,FollowUserAPIView, MyContactListAPIView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -28,6 +28,7 @@ urlpatterns = [
     path('get/userInfo/<int:userinfo_id>/', UserRetraiveInfoAPIView.as_view(), name = 'get-info'),
     path('user/<int:user_id>/data/', UserDataAPIView.as_view(), name = 'user-data'),
     path('follow/<int:user_id>/user/', FollowUserAPIView.as_view(), name = 'follow-user'),
+    path('contacts/', MyContactListAPIView.as_view(), name = 'contacts'),
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root = settings.STATIC_ROOT)
