@@ -34,6 +34,7 @@ class UserUpdateInfoAPIView(APIView):
     def put(self, request):
         userinfo = request.user.user_info.get(id=request.data.get("id"))
         serializer = UserInfoSerializer(userinfo, data=request.data)
+        print(request.data)
         if serializer.is_valid():
             serializer.save()
 

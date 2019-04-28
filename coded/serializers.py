@@ -18,7 +18,7 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         new_user.set_password(password)
         new_user.save()
         Profile.objects.create(user = new_user)
-        # UserInfo.objects.create(user = new_user)
+        UserInfo.objects.create(user = new_user)
         jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
         jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
         payload = jwt_payload_handler(new_user)
@@ -49,6 +49,7 @@ class UserInfoSerializer(serializers.ModelSerializer):
         return userinfo
 
     def update(self, instance, validated_data):
+        
         phonenumbers_data = validated_data.pop('phone_number')
         userinfo = instance
 
