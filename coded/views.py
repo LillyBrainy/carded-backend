@@ -71,5 +71,16 @@ class MyContactListAPIView(ListAPIView):
 
 	serializer_class = FollowSerializer
 
+class FillUserInfoAPIView(RetrieveUpdateAPIView):
+	queryset = UserInfo.objects.all()
+	serializer_class =  UserInfoSerializer
+	lookup_fields = 'id'
+	lookup_url_kwarg = 'userinfo_id'
+
+
+
+
+
+
 
 
