@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Profile , UserInfo, Follow, PhoneNumber
+from .models import Profile , Follow, PhoneNumber
 from rest_framework_jwt.settings import api_settings
 from django.contrib.auth.models import User
 
@@ -17,7 +17,7 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         new_user = User(username = username)
         new_user.set_password(password)
         new_user.save()
-        Profile.objects.create(user = new_user)
+        # Profile.objects.create(user = new_user)
         # UserInfo.objects.create(user = new_user)
         jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
         jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
@@ -35,13 +35,13 @@ class PhoneNumberSerializer(serializers.ModelSerializer):
 class UserInfoSerializer(serializers.ModelSerializer):
     phone_number = PhoneNumberSerializer(many=True)
     class Meta:
-        model = UserInfo
+        model = Profile
         fields = '__all__'
         read_only_fields = ['user']
 
     def create(self, validated_data):
         phonenumbers_data = validated_data.pop('phone_number')
-        userinfo = UserInfo.objects.create(**validated_data)
+        userinfo = Profile.objects.create(**validated_data)
         for phonenumber_data in phonenumbers_data:
             phone_number, created = PhoneNumber.objects.get_or_create(number=phonenumber_data.get("number", ""))
             userinfo.phone_number.add(phone_number)
@@ -82,7 +82,7 @@ class FollowSerializer(serializers.ModelSerializer):
     friends = UserDataSerializer()
     class Meta:
         model = Follow
-        fields = ['friends']
+        fields = ['friends', 'note']
 
 
                         

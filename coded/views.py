@@ -2,7 +2,7 @@ from django.shortcuts import render
 from .serializers import UserRegistrationSerializer , UserInfoSerializer , UserDataSerializer, FollowSerializer, PhoneNumberSerializer
 from rest_framework.generics import CreateAPIView , RetrieveUpdateAPIView , DestroyAPIView, ListAPIView ,RetrieveAPIView 
 from rest_framework.views import APIView
-from .models import UserInfo , Follow
+from .models import  Follow
 from django.contrib.auth.models import User
 from rest_framework.response import Response
 from rest_framework import status
@@ -44,9 +44,7 @@ class UserUpdateInfoAPIView(APIView):
         serializer = UserInfoSerializer(data=request.data)
         if serializer.is_valid():
 
-            myobject = serializer.save(commit=False)
-            myobject.user = request.user
-            myobject.save()
+            serializer.save(user=request.user)
 
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -84,7 +82,8 @@ class UserDataAPIView(RetrieveAPIView):
 class FollowUserAPIView(APIView):
     def post(self, request, user_id):
             user = User.objects.get(id = user_id)
-            follow_obj, created = Follow.objects.get_or_create(user = request.user , friends = user)
+            noteG = request.data.get('note')
+            follow_obj, created = Follow.objects.get_or_create(user = request.user , friends = user , note = noteG )
             # if created:
             #     action = 'follow'
             # else:
@@ -99,6 +98,7 @@ class MyContactListAPIView(ListAPIView):
         return Follow.objects.filter(user=self.request.user)
 
     serializer_class = FollowSerializer
+    
 
 
 

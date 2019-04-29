@@ -13,6 +13,8 @@ from django.contrib.auth.models import User
 
 class PhoneNumber(models.Model):
 	number = models.CharField(max_length = 100)
+	def __str__(self):
+		return self.number
 
 class Profile(models.Model):
 	user = models.ForeignKey(User, on_delete = models.CASCADE, related_name = 'user_info') #changed from onetoone to foreignkey for multiple bar codes 
@@ -23,7 +25,7 @@ class Profile(models.Model):
 	email = models.EmailField( null = True, blank = True)
 	phone_number = models.ManyToManyField(PhoneNumber)
 	# phone_number2 = models.CharField(max_length = 100,  null = True, blank = True) !! create a phone# model and let phone number field be a relationship to it (manytomany)
-	social_media = models.URLField( null = True, blank = True) # make social media field into charfields so users can add their handles and make it manytomany to socialmedia model
+	social_media = models.CharField(max_length = 300, null = True, blank = True) # make social media field into charfields so users can add their handles and make it manytomany to socialmedia model
 
 	def __str__(self):
 		return self.user.username
@@ -47,7 +49,8 @@ class Profile(models.Model):
 
 class Follow(models.Model):
 	user = models.ForeignKey(User, on_delete = models.CASCADE)
-	profile = models.ForeignKey(Profile, on_delete = models.CASCADE , related_name = 'followers')			
+	profile = models.ForeignKey(Profile, on_delete = models.CASCADE , related_name = 'followers')
+	note = models.TextField(null =True , blank = True)			
 	
 	def __str__(self):
 		return self.user.username
