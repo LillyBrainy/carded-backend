@@ -2,7 +2,7 @@ from django.shortcuts import render
 from .serializers import UserRegistrationSerializer , UserInfoSerializer , UserDataSerializer, FollowSerializer, PhoneNumberSerializer
 from rest_framework.generics import CreateAPIView , RetrieveUpdateAPIView , DestroyAPIView, ListAPIView ,RetrieveAPIView 
 from rest_framework.views import APIView
-from .models import  Follow
+from .models import  Follow, Profile
 from django.contrib.auth.models import User
 from rest_framework.response import Response
 from rest_framework import status
@@ -27,12 +27,16 @@ class UserRegistrationAPIView(CreateAPIView):
 
 class UserUpdateInfoAPIView(APIView):
     def get(self,request):
+        query = request.GET.get('id')
+        if query:
+            profile = Profile.objects.get(id=query)
+            return Response(UserInfoSerializer(profile).data)
         user = request.user
-        userinfo = user.user_info.all()
+        userinfo = user.profile.all()
         return Response(UserInfoSerializer(userinfo, many = True).data)
 
     def put(self, request):
-        userinfo = request.user.user_info.get(id=request.data.get("id"))
+        userinfo = request.user.profile.get(id=request.data.get("id"))
         serializer = UserInfoSerializer(userinfo, data=request.data)
         if serializer.is_valid():
             serializer.save()
