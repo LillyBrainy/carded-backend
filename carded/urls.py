@@ -18,7 +18,7 @@ from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
 from rest_framework_jwt.views import obtain_jwt_token
-from coded.views import UserRegistrationAPIView ,UserDataAPIView,FollowUserAPIView, MyContactListAPIView, UserUpdateInfoAPIView
+from coded.views import UserRegistrationAPIView ,UserDataAPIView,FollowUserAPIView, MyContactListAPIView, UserUpdateInfoAPIView, UserProfileAPIView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -27,7 +27,8 @@ urlpatterns = [
     # path('fill/QRInfo/<int:userinfo_id>/', UserFillInfoAPIView.as_view(), name = 'fill-QR'),
     # path('get/userInfo/<int:userinfo_id>/', UserRetrieveInfoAPIView.as_view(), name = 'get-info'),
     path('user/<int:user_id>/data/', UserDataAPIView.as_view(), name = 'user-data'),
-    path('follow/<int:user_id>/user/', FollowUserAPIView.as_view(), name = 'follow-user'),
+    path('user/<int:profile_id>/data', UserProfileAPIView.as_view(), name = 'user-profile'),
+    path('follow/<int:profile_id>/user/', FollowUserAPIView.as_view(), name = 'follow-user'),
     path('contacts/', MyContactListAPIView.as_view(), name = 'contacts'),
     path('userinfo/', UserUpdateInfoAPIView.as_view(), name = 'user-info'),
 ]

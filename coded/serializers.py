@@ -79,10 +79,10 @@ class UserDataSerializer(serializers.ModelSerializer):
         fields = ['id','username','profiles']
 
 class FollowSerializer(serializers.ModelSerializer):
-    friends = UserDataSerializer()
+    profile = ProfileSerializer()
     class Meta:
         model = Follow
-        fields = ['friends', 'note']
+        fields = ['note' ,'profile']
 
 
                         

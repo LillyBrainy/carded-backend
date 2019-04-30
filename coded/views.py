@@ -84,12 +84,18 @@ class UserDataAPIView(RetrieveAPIView):
     lookup_fields = 'id'
     lookup_url_kwarg = 'user_id'
 
+class UserProfileAPIView(RetrieveAPIView):
+    queryset = Profile.objects.all()
+    serializer_class =  ProfileSerializer
+    lookup_fields = 'id'
+    lookup_url_kwarg = 'profile_id'    
+
 
 class FollowUserAPIView(APIView):
-    def post(self, request, user_id):
-            user = User.objects.get(id = user_id)
+    def post(self, request, profile_id):
+            user_profile = Profile.objects.get(id = profile_id)
             noteG = request.data.get('note')
-            follow_obj, created = Follow.objects.get_or_create(user = request.user , friends = user , note = noteG )
+            follow_obj, created = Follow.objects.get_or_create(user = request.user , profile = user_profile , note = noteG )
             # if created:
             #     action = 'follow'
             # else:
