@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .serializers import UserRegistrationSerializer , UserInfoSerializer , UserDataSerializer, FollowSerializer, PhoneNumberSerializer
+from .serializers import UserRegistrationSerializer , ProfileSerializer , UserDataSerializer, FollowSerializer
 from rest_framework.generics import CreateAPIView , RetrieveUpdateAPIView , DestroyAPIView, ListAPIView ,RetrieveAPIView 
 from rest_framework.views import APIView
 from .models import  Follow, Profile
@@ -21,7 +21,7 @@ class UserRegistrationAPIView(CreateAPIView):
 
 # class UserFillInfoAPIView(RetrieveUpdateAPIView):
 #   queryset = UserInfo.objects.all()
-#   serializer_class =  UserInfoSerializer
+#   serializer_class =  ProfileSerializer
 #   lookup_fields = 'id'
 #   lookup_url_kwarg = 'userinfo_id'
 
@@ -30,22 +30,24 @@ class UserUpdateInfoAPIView(APIView):
         query = request.GET.get('id')
         if query:
             profile = Profile.objects.get(id=query)
-            return Response(UserInfoSerializer(profile).data)
+            return Response(ProfileSerializer(profile).data)
         user = request.user
-        userinfo = user.profile.all()
-        return Response(UserInfoSerializer(userinfo, many = True).data)
+        profile = user.profiles.all()
+        return Response(ProfileSerializer(profile, many = True).data)
 
     def put(self, request):
-        userinfo = request.user.profile.get(id=request.data.get("id"))
-        serializer = UserInfoSerializer(userinfo, data=request.data)
+        profile = request.user.profiles.get(id=request.data.pop("id"))
+        print(request.data)
+        serializer = ProfileSerializer(profile, data=request.data)
         if serializer.is_valid():
             serializer.save()
-
+            print(serializer.data)
             return Response(serializer.data)
+        print(serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def post(self, request):
-        serializer = UserInfoSerializer(data=request.data)
+        serializer = ProfileSerializer(data=request.data)
         if serializer.is_valid():
 
             serializer.save(user=request.user)
@@ -72,7 +74,7 @@ class UserUpdateInfoAPIView(APIView):
 
 # class UserRetrieveInfoAPIView(RetrieveAPIView):
 #   queryset = UserInfo.objects.all()
-#   serializer_class =  UserInfoSerializer
+#   serializer_class =  ProfileSerializer
 #   lookup_fields = 'id'
 #   lookup_url_kwarg = 'userinfo_id'        
 

@@ -11,20 +11,20 @@ from django.contrib.auth.models import User
 # 	def __str__(self):
 # 		return self.user
 
-class PhoneNumber(models.Model):
-	number = models.CharField(max_length = 100)
-	def __str__(self):
-		return self.number
+# class PhoneNumber(models.Model):
+# 	number = models.CharField(max_length = 100)
+# 	def __str__(self):
+# 		return self.number
 
 class Profile(models.Model):
-	user = models.ForeignKey(User, on_delete = models.CASCADE, related_name = 'user_info') #changed from onetoone to foreignkey for multiple bar codes 
+	user = models.ForeignKey(User, on_delete = models.CASCADE, related_name = 'profiles') #changed from onetoone to foreignkey for multiple bar codes 
 	profile_name = models.CharField(max_length = 200)
 	first_name = models.CharField(max_length = 200, null = True, blank = True)
 	last_name = models.CharField(max_length = 200, null = True, blank = True)
 	company_name = models.CharField(max_length = 300 , null = True, blank = True)
 	email = models.EmailField( null = True, blank = True)
-	phone_number = models.ManyToManyField(PhoneNumber)
-	# phone_number2 = models.CharField(max_length = 100,  null = True, blank = True) !! create a phone# model and let phone number field be a relationship to it (manytomany)
+	phone_number1 = models.CharField(max_length = 100,  null = True, blank = True)
+	phone_number2 = models.CharField(max_length = 100,  null = True, blank = True) # model and let phone number field be a relationship to it (manytomany)
 	social_media = models.CharField(max_length = 300, null = True, blank = True) # make social media field into charfields so users can add their handles and make it manytomany to socialmedia model
 
 	def __str__(self):
